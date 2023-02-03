@@ -4,322 +4,325 @@ import java.text.DecimalFormat;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
-
 public class Account
 {
-//private
+	
+	
+	@Override
+	public String toString() {
+		return "Account [customerNumber=" + customerNumber + ", pinNumber=" + pinNumber + ", checkingBalance="
+				+ checkingBalance + ", savingBalance=" + savingBalance + ", input=" + input + ", moneyFormat="
+				+ moneyFormat + "]";
+	}
+
+
+	//variables
 	//non-static data members
 	private int customerNumber;
 	private int pinNumber;
 	private double checkingBalance = 0.0;
-	private double savingBalance=0.0;
+	private double savingBalance = 0.0;
+	
+	
+	Scanner input = new Scanner(System.in);
+	//cntr + alt + 4 for rupee symbol|regex
+	DecimalFormat moneyFormat = new DecimalFormat("'₹'###,##0.00");
+	
+	public Account()
+	{
+	}
+	
+	public Account(int customerNumber, int pinNumber)
+	{
+		this.customerNumber = customerNumber;
+		this.pinNumber = pinNumber;
+	}
+	
+	public Account(int customerNumber, int pinNumber, double checkingBalance, double savingBalance)
+	{
+		this.customerNumber = customerNumber;
+		this.pinNumber = pinNumber;
+		this.checkingBalance = checkingBalance;
+		this.savingBalance = savingBalance;
+	}
+	
+	public int setCustomerNumber(int customerNumber)
+	{
+		this.customerNumber = customerNumber;
+		return customerNumber;
+	}
+	
+	public int getCustomerNumber()
+	{
+		return customerNumber;
+	}
 
-	Scanner input=new Scanner(System.in);
-	//ctrl +_alt+4 for rupee symbol shortcut
-    DecimalFormat moneyFormat=new DecimalFormat("'₹'###,##0.00");
-
-    public Account()
-    {
-
-    }
-    public Account(int customerName, int pinNumber)
-    {
-    	this.customerNumber = customerNumber;
-    	this.pinNumber=pinNumber;
-    }
-    public Account(int customerNUmber, int pinNumber,double checkingBalance, double savingBalance)
-    {
-    	this.customerNumber =customerNumber;
-    	this.pinNumber = pinNumber;
-    	this.checkingBalance =checkingBalance;
-    	this.savingBalance=savingBalance;
-
-    }
-    //if we want to access private datamembers set method is used
-    public int setCustomerNumber(int CustomerNumber)
-    {
-    	this.customerNumber = customerNumber;
-    	return customerNumber;
-
-    }
-    public int getCustomerNumber()
-    {
-    	return customerNumber;
-    	}
 	public int getPinNumber()
 	{
 		return pinNumber;
 	}
+
 	public void setPinNumber(int pinNumber)
 	{
 		this.pinNumber = pinNumber;
 	}
-	public double getCheckBalance()
+
+	public double getCheckingBalance()
 	{
 		return checkingBalance;
 	}
+
 	public double getSavingBalance()
 	{
 		return savingBalance;
 	}
+	
 	public double calcCheckingWithdraw(double amount)
 	{
-		checkingBalance  =(checkingBalance - amount);
+		checkingBalance = (checkingBalance - amount);
 		return checkingBalance;
-
 	}
+	
 	public double calcSavingWithdraw(double amount)
 	{
-		savingBalance =(savingBalance - amount);
+		savingBalance = (savingBalance - amount);
 		return savingBalance;
 	}
+	
 	public double calcCheckingDeposit(double amount)
 	{
 		checkingBalance = (checkingBalance + amount);
 		return checkingBalance;
 	}
+	
 	public double calcSavingDeposit(double amount)
 	{
-		savingBalance =(savingBalance + amount);
+		savingBalance = (savingBalance + amount);
 		return savingBalance;
-
 	}
-	//transferring the money from checking to saving
+	
+	//transferring the money from checking to savings
 	public void calcCheckTransfer(double amount)
 	{
 		checkingBalance = checkingBalance - amount;
 		savingBalance = savingBalance + amount;
 	}
+	
+	//transferring the money from savings to checking
+	
 	public void calcSavingTransfer(double amount)
 	{
 		savingBalance = savingBalance - amount;
 		checkingBalance = checkingBalance + amount;
-
 	}
-//to get a input from inputs
+	
 	public void getCheckingWithdrawInput()
 	{
 		boolean end = false;
-
+		
 		while(!end)
 		{
 			try
-
 			{
-			System.out.println("\n current checking account balance:" +moneyFormat.format(checkingBalance));
-			System.out.println("\n amount you want to withdraw from checkings Account:");
-			double amount=input.nextDouble();
-	if((checkingBalance-amount)>=0 && amount >= 0)
-      {
-	    calcCheckingWithdraw(amount);
-	    System.out.println("\n current checking account balance:" +moneyFormat.format(checkingBalance));
-        end = true;
-      }
-      else
-      {
-    	  System.out.println("\n Balance Cannot be Negative");
-
-			}
+				System.out.println("\nCurrent Checking Account Balance: " + moneyFormat.format(checkingBalance));
+				System.out.println("\nAmount you want to withdraw from Checkings Account: ");
+				double amount = input.nextDouble();
+				
+				if((checkingBalance - amount) >= 0 && amount > 0)
+				{
+					calcCheckingWithdraw(amount);
+					System.out.println("\nCurrent Checking Account Balance: " + moneyFormat.format(checkingBalance));
+					end = true;
+				}
+				else
+				{
+					System.out.println("\n Balance Cannot be Negative");
+				}
 			}
 			catch(InputMismatchException ex)
 			{
-				System.out.println("\n invalid choice ");
+				System.out.println("\n Invalid Choice");
 				input.next();
-
 			}
 		}
-
-
 	}
+	
+	
 	public void getSavingWithdrawInput()
 	{
 		boolean end = false;
-
+		
 		while(!end)
 		{
 			try
-
 			{
-			System.out.println("\n current Saving account balance:" +moneyFormat.format(savingBalance));
-			System.out.println("\n amount you want to withdraw from Savings Account:");
-			double amount=input.nextDouble();
-	if((savingBalance-amount)>=0 && amount >= 0)
-      {
-	    calcSavingWithdraw(amount);
-	    System.out.println("\n current saving account balance:" +moneyFormat.format(savingBalance));
-        end = true;
-      }
-      else
-      {
-    	  System.out.println("\n Balance Cannot be Negative");
-
-			}
+				System.out.println("\nCurrent Saving Account Balance: " + moneyFormat.format(savingBalance));
+				System.out.println("\nAmount you want to withdraw from Saving Account: ");
+				double amount = input.nextDouble();
+				
+				if((savingBalance - amount) >= 0 && amount > 0)
+				{
+					calcSavingWithdraw(amount);
+					System.out.println("\nCurrent Saving Account Balance: " + moneyFormat.format(savingBalance));
+					end = true;
+				}
+				else
+				{
+					System.out.println("\n Balance Cannot be Negative");
+				}
 			}
 			catch(InputMismatchException ex)
 			{
-				System.out.println("\n invalid choice ");
+				System.out.println("\n Invalid Choice");
 				input.next();
-
 			}
 		}
-				}
+	}
+	
+	
 	public void getCheckingDepositInput()
 	{
-boolean end = false;
-
+		boolean end = false;
+		
 		while(!end)
 		{
 			try
-
 			{
-			System.out.println("\n current checking account balance:" +moneyFormat.format(checkingBalance));
-			System.out.println("\n amount you want to withdraw from checkings Account:");
-			double amount=input.nextDouble();
-
-	     if(!(amount <= 0)&&(checkingBalance + amount)>=0 && amount >= 0)
-      {
-	    calcCheckingDeposit(amount);
-	    System.out.println("\n current checking account balance:" +moneyFormat.format(checkingBalance));
-        end = true;
-      }
-      else
-      {
-    	  System.out.println("\n  Cannot be Negative amount");
-
-			}
+				System.out.println("\nCurrent Checking Account Balance: " + moneyFormat.format(checkingBalance));
+				System.out.println("\nAmount you want to deposit to Checking Account: ");
+				double amount = input.nextDouble();
+				
+				
+				if(!(amount == 0) && (checkingBalance + amount) > 0 && amount > 0)
+				{
+					calcCheckingDeposit(amount);
+					System.out.println("\nCurrent Checking Account Balance: " + moneyFormat.format(checkingBalance));
+					end = true;
+				}
+				else
+				{
+					System.out.println("\nCannot Deposit Negative or O amount");
+				}
 			}
 			catch(InputMismatchException ex)
 			{
-				System.out.println("\n invalid choice ");
+				System.out.println("\n Invalid Choice");
 				input.next();
-
 			}
 		}
-
 	}
+	
 	public void getSavingDepositInput()
 	{
 		boolean end = false;
-
+		
 		while(!end)
 		{
 			try
-
 			{
-			System.out.println("\n current Saving account balance:" +moneyFormat.format(savingBalance));
-			System.out.println("\n amount you want to withdraw from Savings Account:");
-			double amount=input.nextDouble();
-			if(amount < 0)
-			{
-				 System.out.println("\n Balance Cannot be Negative");
-			}
-	if(!(amount <= 0)&&(savingBalance-amount)>=0 && amount >= 0)
-      {
-	    calcSavingDeposit(amount);
-	    System.out.println("\n current saving account balance:" +moneyFormat.format(savingBalance));
-        end = true;
-      }
-      else
-      {
-    	  System.out.println("\n Balance Cannot be Negative");
-
-			}
+				System.out.println("\nCurrent Saving Account Balance: " + moneyFormat.format(savingBalance));
+				System.out.println("\nAmount you want to Deposit to Saving Account: ");
+				double amount = input.nextDouble();
+				
+				if(!(amount == 0) && (savingBalance + amount) > 0 && amount > 0)
+				{
+					calcSavingDeposit(amount);
+					System.out.println("\nCurrent Saving Account Balance: " + moneyFormat.format(savingBalance));
+					end = true;
+				}
+				else
+				{
+					System.out.println("\n Cannot Deposit Negative or 0 amount");
+				}
 			}
 			catch(InputMismatchException ex)
 			{
-				System.out.println("\n invalid choice ");
+				System.out.println("\n Invalid Choice");
 				input.next();
-
 			}
 		}
-				}
+	}
+	
+	
 	public void getTransferInput(String accType)
 	{
 		boolean end = false;
-
+		
 		while(!end)
 		{
 			try
 			{
-				if(accType.equals("checking"))
+				if(accType.equals("Checkings"))
 				{
-					System.out.println("\n select an account you wish to transfer funds to:");
-					System.out.println("1.savings");
-					System.out.println("2.Exit");
-					System.out.println("\nChoice:");
+					System.out.println("\n Select an account you wish to transfer funds to: ");
+					System.out.println("1. Savings");
+					System.out.println("2. Exit");
+					System.out.println("\nChoice: ");
 					int choice = input.nextInt();
 					switch(choice)
 					{
-					case 1:System.out.println("\n current checking account balance:"+ moneyFormat.format(checkingBalance));
-					System.out.println("amount want to deposit into your savings account :");
-					double amount = input.nextDouble();
-					if((savingBalance + amount)>= 0 && (checkingBalance-amount) >=0 && amount >= 0)
-					{
-						calcCheckTransfer(amount);
-						System.out.println("\n current savings account Balance "+moneyFormat.format(savingBalance));
-						System.out.println("\ncurrent checkings account Balance "+moneyFormat.format(checkingBalance));
-				        end =true;
-					}
-					else
-					{
-						System.out.println("\n  cannot transfer neagative or 0 amount");
-					}
-					break;
-					case 2:
-						return;
-						default:
-							System.out.println("\n invalid choice");
-							break;
-					}
-				}
-
-					else if (accType.equals("Savings"))
-					{
-						System.out.println("\n select an amount you wish to transfer funds to: ");
-						System.out.println("1.checkings");
-						System.out.println("2.Exit");
-						System.out.println("\nChoice:");
-						int choice = input.nextInt();
-						switch(choice)
-						{
-						case 1:System.out.println("\n current saving account balance:"+ moneyFormat.format(savingBalance));
-						System.out.println("amount want to deposit into your savings account :");
+						case 1: System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(checkingBalance));
+						System.out.println("\nAmount you want to deposit into your Savings Account: ");
 						double amount = input.nextDouble();
-						if(!(amount < 0)&&(checkingBalance + amount)> 0 &&(savingBalance - amount)> 0 && amount >=0)
+						if(!(amount == 0) && (savingBalance + amount) > 0 && (checkingBalance - amount) > 0 && amount > 0)
 						{
-							calcSavingTransfer(amount);
-							System.out.println("\n current checking account balance "+ moneyFormat.format(checkingBalance));
-							System.out.println("\n current checking account balance "+moneyFormat.format(savingBalance));
-						end = true;
+							calcCheckTransfer(amount);
+							System.out.println("\nCurrent Savings Account Balance: " + moneyFormat.format(savingBalance));
+							System.out.println("\nCurrent Checkings Account Balance: " + moneyFormat.format(checkingBalance));
+							end = true;
 						}
 						else
 						{
-							System.out.println("\n cannot Transfer negative or ) amount");
+							System.out.println("\nCannot Transfer Negative  or 0 amount.");
 						}
-					break;
-						case 2:
+						break;
+						case 2: 
 							return;
+						default:
+							System.out.println("\nInvalid Choice.");
+							break;
+					}
+				}
+				else if(accType.equals("Savings"))
+				{
+					System.out.println("\nSelect an account you wish to transer funds to: ");
+					System.out.println("1. Checkings");
+					System.out.println("2. Exit");
+					System.out.println("\nChoice: ");
+					int choice = input.nextInt();
+						switch(choice)
+						{
+							case 1: System.out.println("\nCurrent Savings Account Balance: " + moneyFormat.format(savingBalance));
+							        System.out.println("\nAmount you want to transfer into your checkings account: ");
+							        double amount = input.nextDouble();
+							        if(!(amount == 0) && (checkingBalance + amount) > 0 && (savingBalance - amount) > 0 && amount > 0)
+							        {
+							        	calcSavingTransfer(amount);
+							        	System.out.println("\nCurrent checkings account balance: " + moneyFormat.format(checkingBalance));
+							        	System.out.println("\nCurrent savings account balance: " + moneyFormat.format(savingBalance));
+							        	end = true;
+							        }
+							        else
+							        {
+							        	System.out.println("\n Cannot Transfer Negative or 0 amount");
+							        }
+							        break;
+							case 2: 
+								    return;
 							default:
-								System.out.println("\n invaliod choice");
-								break;
+								    System.out.println("\nInvalid Choice. ");
+								    break;
 						}
-						}
-						}
-					catch(InputMismatchException ex)
-					{
-						System.out.println("\n Invalid Choice");
-						input.next();
 					}
-
-					}
-
-					}
-
-
-
-
-
-
-
-
+			}
+			catch(InputMismatchException ex)
+			{
+				System.out.println("\nInvalid Choice. ");
+				input.next();
+			}
+		}
+	}
 }
+
+	
+	
